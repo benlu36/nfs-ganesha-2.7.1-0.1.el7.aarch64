@@ -6,9 +6,7 @@ This document is about to build out arm64/aarch64 nfs-ganesha rpm pkgs for NeoKy
 
 Build from what OS:
 
-[root@localhost ~]# 
-
-# cat /etc/*release
+[root@localhost ~]# cat /etc/*release
 NeoKylin Linux Advanced Server release V7Update5 (Vanadium)
 NAME="NeoKylin Linux Advanced Server"
 VERSION="V7Update5 (Vanadium)"
@@ -57,9 +55,9 @@ drwxr-xr-x. 2 root root 6 Jun  7 15:30 SRPMS
   
 ## setup ceph repo and install all ceph pkgs as depends for nfs-ganesha aarch64.rpm pkgs build, this step may not needed in some centos like OS:
 
-# vi install_ceph_mimic_on_centos.sh
+[root@localhost tmp]# vi install_ceph_mimic_on_centos.sh
 
-# cat install_ceph_mimic_on_centos.sh
+[root@localhost tmp]# cat install_ceph_mimic_on_centos.sh
 sudo yum update
 sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 sudo yum install -y yum-utils
@@ -98,8 +96,8 @@ sudo yum install -y ceph ceph-osd ceph-mds ceph-mgr ceph-radosgw ceph-mon ceph-c
 which ceph
 ceph --version
 
- # ./install_ceph_mimic_on_centos.sh 
- # yum install -y librados-devel libcephfs-devel librgw-devel
+[root@localhost tmp]# ./install_ceph_mimic_on_centos.sh 
+[root@localhost tmp]# yum install -y librados-devel libcephfs-devel librgw-devel
 
 ## start to build:
 
@@ -136,11 +134,11 @@ Executing(--clean): /bin/sh -e /var/tmp/rpm-tmp.3cZjIh
 + cd /root/rpmbuild/BUILD
 + rm -rf nfs-ganesha-2.7.1
 + exit 0
-[root@localhost tmp]# history | tail -30
+[root@localhost tmp]# 
 
 ## check the build result, we see all nfs-ganesha aarch64 rpms are there:
 
-[root@localhost daemon]# ls -l /root/rpmbuild/RPMS/aarch64/
+[root@localhost tmp]# ls -l /root/rpmbuild/RPMS/aarch64/
 total 9348
 -rw-r--r--. 1 root root  107372 Jun  7 17:37 libntirpc-1.7.1-0.1.el7.aarch64.rpm
 -rw-r--r--. 1 root root   84656 Jun  7 17:37 libntirpc-devel-1.7.1-0.1.el7.aarch64.rpm
@@ -158,20 +156,20 @@ total 9348
 -rw-r--r--. 1 root root   38672 Jun  7 17:37 nfs-ganesha-vfs-2.7.1-0.1.el7.aarch64.rpm
 -rw-r--r--. 1 root root   37192 Jun  7 17:37 nfs-ganesha-xfs-2.7.1-0.1.el7.aarch64.rpm
 
-# cd /root/rpmbuild/RPMS/aarch64/
+[root@localhost tmp]# cd /root/rpmbuild/RPMS/aarch64/
 
 ## create tar.gz pkg for other arm64 NeoKylin/Centos Linux to use:
 
-# tar -czvf nfs-ganesha-2.7.1.aarch64.rpm_all.tar.gz  *.aarch64.rpm
+[root@localhost tmp]# tar -czvf nfs-ganesha-2.7.1.aarch64.rpm_all.tar.gz  *.aarch64.rpm
 
-# ls -ltr | grep tar.gz
+[root@localhost tmp]# ls -ltr | grep tar.gz
 -rw-r--r--. 1 root root 4721190 Jun  7 18:19 nfs-ganesha-2.7.1.aarch64.rpm_all.tar.gz
 
-## install ganesha rpms on any NeoKylin Linux  or Centos/ Redhat OS with Arm64 Architect
+## install ganesha rpms on any NeoKylin Linux or Centos/ Redhat OS with Arm64 Architect
 
-# yum install -y libtirpc nfs-utils rpcbind        ## install depends first
-# tar -xzvf nfs-ganesha-2.7.1.aarch64.rpm_all.tar.gz
-# rpm Uvh *.rpm           ## install nfs-ganesha rpms:
+[root@localhost tmp]# yum install -y libtirpc nfs-utils rpcbind        ## install depends first
+[root@localhost tmp]# tar -xzvf nfs-ganesha-2.7.1.aarch64.rpm_all.tar.gz
+[root@localhost tmp]# rpm Uvh *.rpm           ## install nfs-ganesha rpms:
 
 Preparing...                          ################################# [100%]
 Updating / installing...
