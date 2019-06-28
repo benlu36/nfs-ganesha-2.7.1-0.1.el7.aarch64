@@ -6,7 +6,7 @@ This document is about to build out arm64/aarch64 nfs-ganesha rpm pkgs for NeoKy
 
 Build from what OS:
 
-[root@localhost ~]# cat /etc/*release;
+[root@localhost ~]# cat /etc/*release
 NeoKylin Linux Advanced Server release V7Update5 (Vanadium)
 NAME="NeoKylin Linux Advanced Server"
 VERSION="V7Update5 (Vanadium)"
@@ -27,23 +27,22 @@ NEOKYLIN_SUPPORT_PRODUCT="NeoKylin Linux Advanced Server"
 NEOKYLIN_SUPPORT_PRODUCT_VERSION="V7Update5"
 Red Hat Enterprise Linux Server release 7.5 (Maipo)
 NeoKylin Linux Advanced Server release V7Update5 (Vanadium)
-[root@localhost ~]# 
 
 ## Get source code to build:
 
-[root@localhost tmp]# wget http://74.120.223.226/nfs-ganesha/rpm-V2.7-stable/mimic/SRPMS/nfs-ganesha-2.7.1-0.1.el7.src.rpm;
+[root@localhost tmp]# wget http://74.120.223.226/nfs-ganesha/rpm-V2.7-stable/mimic/SRPMS/nfs-ganesha-2.7.1-0.1.el7.src.rpm
 
 
 ## prepare the build env:
 
-[root@localhost tmp]# yum install gcc git cmake autoconf libtool bison flex -y;
+[root@localhost tmp]# yum install gcc git cmake autoconf libtool bison flex -y
 
-[root@localhost tmp]# yum install -y libgssglue-devel openssl-devel nfs-utils-lib-devel doxygen redhat-lsb gcc-c++ rpm-build;
+[root@localhost tmp]# yum install -y libgssglue-devel openssl-devel nfs-utils-lib-devel doxygen redhat-lsb gcc-c++ rpm-build
 
 
-[root@localhost tmp]# mkdir -p /root/rpmbuild/BUILD /root/rpmbuild/SPECS /root/rpmbuild/SOURCES /root/rpmbuild/BUILDROOT /root/rpmbuild/RPMS /root/rpmbuild/SRPMS;
+[root@localhost tmp]# mkdir -p /root/rpmbuild/BUILD /root/rpmbuild/SPECS /root/rpmbuild/SOURCES /root/rpmbuild/BUILDROOT /root/rpmbuild/RPMS /root/rpmbuild/SRPMS
 
-[root@localhost tmp]# ls -l ~/rpmbuild/;
+[root@localhost tmp]# ls -l ~/rpmbuild/
 total 0
 drwxr-xr-x. 2 root root 6 Jun  7 15:23 BUILD
 drwxr-xr-x. 2 root root 6 Jun  7 15:30 BUILDROOT
@@ -55,14 +54,14 @@ drwxr-xr-x. 2 root root 6 Jun  7 15:30 SRPMS
   
 ## setup ceph repo and install all ceph pkgs as depends for nfs-ganesha aarch64.rpm pkgs build, this step may not needed in some centos like OS:
 
-[root@localhost tmp]# vi install_ceph_mimic_on_centos.sh;
+[root@localhost tmp]# vi install_ceph_mimic_on_centos.sh
 
-[root@localhost tmp]# cat install_ceph_mimic_on_centos.sh;
+[root@localhost tmp]# cat install_ceph_mimic_on_centos.sh
 sudo yum update;
-sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm;
-sudo yum install -y yum-utils;
+sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo yum install -y yum-utils
 ###################################################################
-sudo rm -f /etc/yum.repos.d/ceph.repo;
+sudo rm -f /etc/yum.repos.d/ceph.repo
 cat << EOF > /etc/yum.repos.d/ceph.repo
 [ceph]
 name=Ceph packages for \$basearch
@@ -89,19 +88,19 @@ gpgcheck=1
 gpgkey=https://download.ceph.com/keys/release.asc
 EOF
 ##########################################################
-sudo rpm --import 'https://download.ceph.com/keys/release.asc';
-sudo yum clean all;
-sudo rm -rf /var/cache/yum;
-sudo yum install -y ceph ceph-osd ceph-mds ceph-mgr ceph-radosgw ceph-mon ceph-common ceph-test;
-which ceph;
-ceph --version;
+sudo rpm --import 'https://download.ceph.com/keys/release.asc'
+sudo yum clean all
+sudo rm -rf /var/cache/yum
+sudo yum install -y ceph ceph-osd ceph-mds ceph-mgr ceph-radosgw ceph-mon ceph-common ceph-test
+which ceph
+ceph --version
 
-[root@localhost tmp]# ./install_ceph_mimic_on_centos.sh;
-[root@localhost tmp]# yum install -y librados-devel libcephfs-devel librgw-devel;
+[root@localhost tmp]# ./install_ceph_mimic_on_centos.sh
+[root@localhost tmp]# yum install -y librados-devel libcephfs-devel librgw-devel
 
 ## start to build:
 
-[root@localhost tmp]# rpmbuild --rebuild /tmp/nfs-ganesha-2.7.1-0.1.el7.src.rpm;
+[root@localhost tmp]# rpmbuild --rebuild /tmp/nfs-ganesha-2.7.1-0.1.el7.src.rpm
 …...
 Requires: /usr/bin/pkg-config
 Processing files: nfs-ganesha-debuginfo-2.7.1-0.1.el7.aarch64
@@ -166,9 +165,9 @@ total 9348
 
 ## install ganesha rpms on any NeoKylin Linux or Centos/ Redhat OS with Arm64 Architect
 
-[root@localhost tmp]# yum install -y libtirpc nfs-utils rpcbind;       ## install depends first
-[root@localhost tmp]# tar -xzvf nfs-ganesha-2.7.1.aarch64.rpm_all.tar.gz;
-[root@localhost tmp]# rpm Uvh *.rpm;          ## install nfs-ganesha rpms
+[root@localhost tmp]# yum install -y libtirpc nfs-utils rpcbind       ## install depends first
+[root@localhost tmp]# tar -xzvf nfs-ganesha-2.7.1.aarch64.rpm_all.tar.gz
+[root@localhost tmp]# rpm Uvh *.rpm          ## install nfs-ganesha rpms
 
 Preparing...                          ################################# [100%]
 Updating / installing...
