@@ -134,7 +134,6 @@ Executing(--clean): /bin/sh -e /var/tmp/rpm-tmp.3cZjIh
 + cd /root/rpmbuild/BUILD
 + rm -rf nfs-ganesha-2.7.1
 + exit 0
-[root@localhost tmp]# 
 
 ## check the build result, we see all nfs-ganesha aarch64 rpms are there:
 
